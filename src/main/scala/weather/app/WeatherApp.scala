@@ -8,10 +8,7 @@ import org.slf4j.LoggerFactory
 
 import scala.concurrent.ExecutionContextExecutor
 import com.typesafe.config.ConfigFactory
-import java.nio.file.{Files, Paths}
 import scala.util.{Success, Failure}
-import model.*
-import model.StationDetailsJsonSupport.*
 import weather.app._
 import weather.app.auth.AuthDirectives._
 
@@ -32,9 +29,27 @@ object WeatherApp extends App {
         get {
           val url = config.getString("weather.url")
           onComplete(getDataFromUrl(url)) {
-            case Success(json) =>
-              logger.info(s"Received JSON data: $json")
-              complete(HttpEntity(ContentTypes.`application/json`, json.compactPrint))
+            case Success(content) =>
+              logger.info(s"Received JSON data: $content")
+              val json = listStationList(content)
+              println(json)
+              complete("Result printed to list: \n"+ json)
+
+            case Failure(ex) =>
+              logger.error(s"Request failed with error: $ex")
+              complete(StatusCodes.InternalServerError, "Failed to fetch data.")
+          }
+        }
+      }
+    } ~ path("api" / "station" / Segment) { stationId =>
+      authenticateBearerToken {
+        get {
+          val url = config.getString("weather.url")
+          onComplete(getDataFromUrl(url)) {
+            case Success(content) =>
+              logger.info(s"Received JSON data: $content")
+              val json = getStationData(content, stationId)
+              complete("Data of selected station: "+ json)
 
             case Failure(ex) =>
               logger.error(s"Request failed with error: $ex")

@@ -2,7 +2,11 @@ package weather.app.model
 
 import spray.json._
 
-case class StationList(Stations: Seq[StationDetails])
+case class StationBasicData(
+  Station_id: String,
+  Name: String
+)
+
 case class StationDetails(
   Station_id: String,
   Name: String,
@@ -21,5 +25,5 @@ case class StationDetails(
 
 object StationDetailsJsonSupport extends DefaultJsonProtocol {
   implicit val stationDetailsFormat: RootJsonFormat[StationDetails] = jsonFormat13(StationDetails)
-  implicit val stationListFormat: RootJsonFormat[StationList] = jsonFormat1(StationList)
+  implicit val stationDetailsListFormat: RootJsonFormat[StationBasicData] = jsonFormat2(StationBasicData)
 }
