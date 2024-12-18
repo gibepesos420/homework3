@@ -37,23 +37,28 @@ def getDataFromUrl(url: String): Future[String] = {
 def listStationList(content: String): String = {
   val lines = content.split("\n").filter(_.nonEmpty)
 
-  val rows = lines.tail.flatMap { row =>
-    val values = row.split(",").map(_.trim.replaceAll("\"", ""))
-
-    if (values.lift(0).exists(_.nonEmpty) && values.lift(1).exists(_.nonEmpty)) {
-      Some(StationBasicData(
-        Station_id = values.lift(0).getOrElse(""),
-        Name = values.lift(1).getOrElse("")
-      ))
-    } else None
-  }.toList
-
-  if (rows.isEmpty) {
-    "No stations found."
+  if (lines.isEmpty) {
+    "No data provided."
   } else {
-    rows.map(station => s"Station ID: ${station.Station_id}, Name: ${station.Name}").mkString("\n")
+    val rows = lines.tail.flatMap { row =>
+      val values = row.split(",").map(_.trim.replaceAll("\"", ""))
+
+      if (values.lift(0).exists(_.nonEmpty) && values.lift(1).exists(_.nonEmpty)) {
+        Some(StationBasicData(
+          Station_id = values.lift(0).getOrElse(""),
+          Name = values.lift(1).getOrElse("")
+        ))
+      } else None
+    }.toList
+
+    if (rows.isEmpty) {
+      "No stations found."
+    } else {
+      rows.map(station => s"Station ID: ${station.Station_id}, Name: ${station.Name}").mkString("\n")
+    }
   }
 }
+
 
 def getStationData(content: String, stationId: String): String = {
   val lines = content.split("\n").filter(_.nonEmpty)

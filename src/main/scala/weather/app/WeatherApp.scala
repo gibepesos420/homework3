@@ -30,10 +30,9 @@ object WeatherApp extends App {
           val url = config.getString("weather.url")
           onComplete(getDataFromUrl(url)) {
             case Success(content) =>
-              logger.info(s"Received JSON data: $content")
-              val json = listStationList(content)
-              println(json)
-              complete("Result printed to list: \n"+ json)
+              val stationListString = listStationList(content)
+              logger.info(stationListString)
+              complete("Result printed to list: \n"+ stationListString)
 
             case Failure(ex) =>
               logger.error(s"Request failed with error: $ex")
@@ -47,9 +46,9 @@ object WeatherApp extends App {
           val url = config.getString("weather.url")
           onComplete(getDataFromUrl(url)) {
             case Success(content) =>
-              logger.info(s"Received JSON data: $content")
-              val json = getStationData(content, stationId)
-              complete("Data of selected station: "+ json)
+              val stationDataString = getStationData(content, stationId)
+              logger.info(stationDataString)
+              complete("Data of selected station: "+ stationDataString)
 
             case Failure(ex) =>
               logger.error(s"Request failed with error: $ex")
