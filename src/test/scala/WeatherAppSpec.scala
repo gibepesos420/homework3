@@ -113,7 +113,7 @@ class AuthDirectivesTest extends AnyFunSuite with ScalatestRouteTest {
   }
 
   test("Should authenticate with a valid Bearer token") {
-    val validToken = config.getString("auth.token")// Replace with the token value in application.conf for a real test
+    val validToken = config.getString("auth.token")
     val header = RawHeader("Authorization", s"Bearer $validToken")
 
     // Test the route with a valid token
