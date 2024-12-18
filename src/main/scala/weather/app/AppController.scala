@@ -3,16 +3,13 @@ package weather.app
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.*
-import akka.stream.ActorMaterializer
 
 import scala.concurrent.Future
 import scala.concurrent.duration.*
 import scala.util.{Failure, Success}
 import spray.json.*
-import spray.json.DefaultJsonProtocol.*
 import weather.app.model.StationDetailsJsonSupport.stationListFormat
 import model.*
-import com.typesafe.config.ConfigFactory
 import org.slf4j.LoggerFactory
 
 implicit val system: ActorSystem = ActorSystem("WeatherApp")
@@ -73,4 +70,3 @@ def tryParseDouble(str: String): Option[Double] = {
     case _: NumberFormatException => None
   }
 }
-//}
