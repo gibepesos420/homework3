@@ -17,17 +17,17 @@ class StationListTest extends AnyFunSuite {
   test("listStationList should return a formatted list of stations") {
     val content =
       """STATION_ID,NAME,WMO_ID,BEGIN_DATE,END_DATE,LATITUDE,LONGITUDE,GAUSS1,GAUSS2,GEOGR1,GEOGR2,ELEVATION,ELEVATION_PRESSURE
-        |homework3 "KALNCIEM","Kalnciems"," ","1945.01.01 00:00:00","3999.12.31 23:59:00","564756","0233700","476940.94","294474.38","23.61654","56.79878","3.18"," "
-        |homework3 "SIGULDA","Sigulda"," ","1939.01.03 00:00:00","3999.12.31 23:59:00","570954","0245112","551605.75","336076.09","24.8533","57.165","100.15"," "
-        |homework3 "RIVE99PA","Ventspils","26314","1873.01.01 00:00:00","3999.12.31 23:59:00","572344","0213214","352000.31","364103.86","21.5372","57.3956","2.33","3.9"
+        |"KALNCIEM","Kalnciems"," ","1945.01.01 00:00:00","3999.12.31 23:59:00","564756","0233700","476940.94","294474.38","23.61654","56.79878","3.18"," "
+        |"SIGULDA","Sigulda"," ","1939.01.03 00:00:00","3999.12.31 23:59:00","570954","0245112","551605.75","336076.09","24.8533","57.165","100.15"," "
+        |"RIVE99PA","Ventspils","26314","1873.01.01 00:00:00","3999.12.31 23:59:00","572344","0213214","352000.31","364103.86","21.5372","57.3956","2.33","3.9"
         |""".stripMargin
 
     val result = listStationList(content)
 
     val expected =
-      """Station ID: homework3 KALNCIEM, Name: Kalnciems
-        |Station ID: homework3 SIGULDA, Name: Sigulda
-        |Station ID: homework3 RIVE99PA, Name: Ventspils""".stripMargin
+      """Station ID: KALNCIEM, Name: Kalnciems
+        |Station ID: SIGULDA, Name: Sigulda
+        |Station ID: RIVE99PA, Name: Ventspils""".stripMargin
 
     assert(result == expected)
   }
