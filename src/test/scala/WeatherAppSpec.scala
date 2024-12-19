@@ -1,8 +1,5 @@
-package weather.app
-
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.model.headers.RawHeader
-import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.matchers.*
 import akka.http.scaladsl.testkit.ScalatestRouteTest
@@ -11,6 +8,7 @@ import akka.http.scaladsl.server.Route
 import com.typesafe.config.ConfigFactory
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.must.Matchers.include
+import weather.app.{getStationData, listStationList}
 
 class StationListTest extends AnyFunSuite {
 

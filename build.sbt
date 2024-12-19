@@ -25,3 +25,14 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor-testkit-typed" % akkaVersion     % Test,
   "org.scalatest"     %% "scalatest"                % "3.2.19"        % Test
 )
+
+assembly / assemblyJarName := "weather-app-assembly-0.1.jar"
+
+enablePlugins(AssemblyPlugin)
+
+assemblyMergeStrategy in assembly := {
+  case "reference.conf" => MergeStrategy.concat
+  case "META-INF/MANIFEST.MF" => MergeStrategy.discard
+  case "META-INF/services/*"   => MergeStrategy.concat
+  case _ => MergeStrategy.first
+}
