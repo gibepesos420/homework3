@@ -1,0 +1,121 @@
+openapi: 3.0.0
+info:
+  title: WeatherApp API
+  description: A REST API for fetching weather station data
+  version: 1.0.0
+
+servers:
+  - url: http://127.0.0.1:8080/v1
+
+paths:
+  /stations:
+    get:
+      summary: Retrieve a list of weather stations
+      description: Returns a list of basic station information.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response with a list of stations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StationBasicData'
+        '500':
+          description: Internal server error
+
+  /station/{stationId}:
+    get:
+      summary: Retrieve detailed information about a specific station
+      description: Returns station metadata for the given station ID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: stationId
+          in: path
+          required: true
+          description: ID of the station
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response with station details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StationDetails'
+        '404':
+          description: Station not found
+        '500':
+          description: Internal server error
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Use a valid bearer token to authenticate.
+
+  schemas:
+    StationBasicData:
+      type: object
+      properties:
+        Station_id:
+          type: string
+          example: "RIVE99PA"
+        Name:
+          type: string
+          example: "Ventspils"
+
+    StationDetails:
+      type: object
+      properties:
+        Station_id:
+          type: string
+          example: "RIVE99PA"
+        Name:
+          type: string
+          example: "Ventspils"
+        WMO_id:
+          type: string
+          example: "26314"
+        Begin_date:
+          type: string
+          format: date
+          example: "1873.01.01 00:00:00"
+        End_date:
+          type: string
+          format: date
+          example: "3999.12.31 23:59:00"
+        Latitude:
+          type: string
+          example: "572344"
+        Longitude:
+          type: string
+          example: "0213214"
+        Gauss1:
+          type: number
+          format: double
+          example: 352000.31
+        Gauss2:
+          type: number
+          format: double
+          example: 364103.86
+        Geogr1:
+          type: number
+          format: double
+          example: 21.5372
+        Geogr2:
+          type: number
+          format: double
+          example: 57.3956
+        Elevation:
+          type: number
+          format: double
+          example: 2.33
+        ELEVATION_PRESSURE:
+          type: number
+          format: double
+          example: 3.9
